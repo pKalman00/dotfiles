@@ -1,1 +1,81 @@
-/home/kpomazi/.config/alacritty/alacritty.toml
+live_config_reload = true
+
+[bell]
+animation = "EaseOutExpo"
+color = "0x192330"
+duration = 100
+
+[cursor]
+blink_interval = 500
+blink_timeout = 0
+unfocused_hollow = true
+
+[cursor.style]
+blinking = "Always"
+shape = "Block"
+
+[font]
+size = 11.0
+
+[font.normal]
+family = "CaskaydiaCoveNerdFont"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[mouse]
+hide_when_typing = true
+
+[scrolling]
+history = 100000
+
+[selection]
+save_to_clipboard = false
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+[shell]
+args = ["--login"]
+program = "/usr/bin/fish"
+
+[window]
+decorations = "full"
+dynamic_title = false
+opacity = 0.95
+startup_mode = "Windowed"
+title = "Alacritty"
+
+[window.dimensions]
+columns = 101
+lines = 31
+
+[window.padding]
+x = 5
+y = 5
+
+# Colors (NightFox)
+
+[colors.primary]
+background = '#192330'
+foreground = '#cdcecf'
+
+[colors.normal]
+black   = '#393b44'
+red     = '#c94f6d'
+green   = '#81b29a'
+yellow  = '#dbc074'
+blue    = '#719cd6'
+magenta = '#9d79d6'
+cyan    = '#63cdcf'
+white   = '#dfdfe0'
+
+[colors.bright]
+black   = '#575860'
+red     = '#d16983'
+green   = '#8ebaa4'
+yellow  = '#e0c989'
+blue    = '#86abdc'
+magenta = '#baa1e2'
+cyan    = '#7ad5d6'
+white   = '#e4e4e5'
