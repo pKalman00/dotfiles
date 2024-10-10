@@ -8,7 +8,7 @@ class Sync:
         print("Retrieving dotfiles from system to repo...")
         for paths in self.paths.values():
             if os.path.exists(paths["system"]):
-                print(subprocess.run(["cp", "-r", "-p",
+                print(subprocess.run(["cp", "-r", "-f",
                                     paths["system"], paths["repo"]],
                                     capture_output=True).stdout.decode())
                 print(f"Retrieved {paths["system"]} to {paths["repo"]}")
@@ -19,7 +19,7 @@ class Sync:
         print("Deploying dotfiles from repo to system...")
         for paths in self.paths.values():
             if os.path.exists(paths["repo"]):
-                print(subprocess.run(["cp", "-r", "-p",
+                print(subprocess.run(["cp", "-r", "-f",
                                     paths["repo"], paths["system"]],
                                     capture_output=True).stdout.decode())
                 print(f"Deployed {paths["repo"]} to {paths["system"]}")
@@ -35,7 +35,7 @@ class Backup(Sync):
         print("Creating backups of existing system files...")
         for paths in self.paths.values():
             if os.path.exists(paths["system"]):
-                print(subprocess.run(["cp", "-r", "-p",
+                print(subprocess.run(["cp", "-r", "-f",
                                     paths["system"], f"{paths["system"]}.bak"],
                                     capture_output=True).stdout.decode())
                 print(f"Created backup of {paths['system']}")
@@ -46,7 +46,7 @@ class Backup(Sync):
         print("Restoring from .bak backup files...")
         for paths in self.paths.values():
             if os.path.exists(f"{paths['system']}.bak"):
-                print(subprocess.run(["cp", "-r", "-p",
+                print(subprocess.run(["cp", "-r", "-f",
                                     f"{paths["system"]}.bak", paths["system"]],
                                     capture_output=True).stdout.decode())
                 print(f"Restored {paths['system']}")
@@ -82,7 +82,7 @@ class Setup:
             },
             "fish_functions": {
                 "system": os.path.expanduser("~/.config/fish/functions"),
-                "repo": "./fish/functions"
+                "repo": "./fish"
             },
             "oh-my-posh": {
                 "system": os.path.expanduser("~/.config/oh-my-posh/omp.json"),
