@@ -1,0 +1,8 @@
+git
+alacritty
+fish
+eza
+zoxide
+fastfetch
+neovim
+java-17-openjdk
