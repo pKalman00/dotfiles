@@ -7,25 +7,12 @@ class Sync:
     def retrieve(self):
         print("Retrieving dotfiles from system to repo...")
         for paths in self.paths.values():
-            if os.path.exists(paths["system"]):
-                print(subprocess.run(["cp", "-r", "-f",
-                                    paths["system"], paths["repo"]],
-                                    capture_output=True).stdout.decode())
-                print(f"Retrieved {paths["system"]} to {paths["repo"]}")
-            else:
-                print(f"{paths['system']} does not exist")
-    
+            print(subprocess.run(["rsync", "-arvz", paths["system"], paths["repo"]], capture_output=True).stdout.decode())
+            
     def deploy(self):
         print("Deploying dotfiles from repo to system...")
         for paths in self.paths.values():
-            if os.path.exists(paths["repo"]):
-                print(subprocess.run(["cp", "-r", "-f",
-                                    paths["repo"], paths["system"]],
-                                    capture_output=True).stdout.decode())
-                print(f"Deployed {paths["repo"]} to {paths["system"]}")
-            else:
-                print(f"{paths['repo']} does not exist")
-        
+            print(subprocess.run(["rsync", "-arvz", paths["repo"], paths["system"]], capture_output=True).stdout.decode())
     
 class Backup(Sync):
     def __init__(self, paths):
@@ -34,32 +21,18 @@ class Backup(Sync):
     def create(self):
         print("Creating backups of existing system files...")
         for paths in self.paths.values():
-            if os.path.exists(paths["system"]):
-                print(subprocess.run(["cp", "-r", "-f",
-                                    paths["system"], f"{paths["system"]}.bak"],
-                                    capture_output=True).stdout.decode())
-                print(f"Created backup of {paths['system']}")
-            else:
-                print(f"{paths['system']} does not exist")
+            print(subprocess.run(["rsync", "-arvz", paths["system"], f"{paths["system"]}.bak"], capture_output=True).stdout.decode())
     
     def restore(self):
         print("Restoring from .bak backup files...")
         for paths in self.paths.values():
-            if os.path.exists(f"{paths['system']}.bak"):
-                print(subprocess.run(["cp", "-r", "-f",
-                                    f"{paths["system"]}.bak", paths["system"]],
-                                    capture_output=True).stdout.decode())
-                print(f"Restored {paths['system']}")
-            else:
-                print(f"{paths['system']}.bak does not exist")
+            print(subprocess.run(["rsync", "-arvz", f"{paths["system"]}.bak", paths["system"]], capture_output=True).stdout.decode())
     
     def delete(self):
         print("Deleting .bak backup files...")
         for paths in self.paths.values():
             if os.path.exists(f"{paths['system']}.bak"):
-                print(subprocess.run(["rm", "-r",
-                                    f"{paths["system"]}.bak"],
-                                    capture_output=True).stdout.decode())
+                print(subprocess.run(["rm", "-r", f"{paths["system"]}.bak"]))
                 print(f"Deleted {paths['system']}")
             else:
                 print(f"{paths['system']}.bak does not exist")
@@ -114,6 +87,7 @@ if __name__ == "__main__":
     setup = Setup()
     sync = Sync(setup.paths)
     bak = Backup(setup.paths)
+    
     if setup.args.retrieve:
         sync.retrieve()
         
