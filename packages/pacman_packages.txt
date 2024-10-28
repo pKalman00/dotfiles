@@ -11,6 +11,7 @@ b43-fwcutter
 base
 base-devel
 bash-completion
+bat
 bind
 bluedevil
 bluez
