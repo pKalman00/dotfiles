@@ -54,8 +54,8 @@ class Setup:
                 "repo": "./fish/config.fish"
             },
             "fish_functions": {
-                "system": os.path.expanduser("~/.config/fish/functions"),
-                "repo": "./fish"
+                "system": os.path.expanduser("~/.config/fish/functions/"),
+                "repo": "./fish/functions/"
             },
             "oh-my-posh": {
                 "system": os.path.expanduser("~/.config/oh-my-posh/omp.json"),
