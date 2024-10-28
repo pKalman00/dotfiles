@@ -64,6 +64,14 @@ class Setup:
             "SpeedCrunch": {
                 "system": os.path.expanduser("~/.config/SpeedCrunch/SpeedCrunch.ini"),
                 "repo": "./SpeedCrunch/SpeedCrunch.ini"
+            },
+            "pacman_packages": {
+                "system": os.path.expanduser("~/pacman_packages.txt"),
+                "repo": "./packages/pacman_packages.txt"
+            },
+            "aur_packages": {
+                "system": os.path.expanduser("~/aur_packages.txt"),
+                "repo": "./packages/aur_packages.txt"
             }
             
             # more
