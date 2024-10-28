@@ -1,0 +1,5 @@
+atlauncher-bin
+code-marketplace
+floorp-bin
+tidal-hifi-bin
+vesktop-bin
