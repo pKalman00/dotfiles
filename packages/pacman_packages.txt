@@ -133,6 +133,7 @@ modemmanager
 mtools
 nano
 nano-syntax-highlighting
+neovim
 netctl
 networkmanager
 networkmanager-openconnect
@@ -190,11 +191,13 @@ sg3_utils
 smartmontools
 sof-firmware
 spectacle
+speedcrunch
 splix
 sudo
 sysfsutils
 system-config-printer
 systemd-sysvcompat
+tenacity
 texinfo
 tidal-hifi-bin
 tldr
