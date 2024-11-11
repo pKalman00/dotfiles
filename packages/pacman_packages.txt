@@ -16,6 +16,7 @@ bind
 bluedevil
 bluez
 bluez-utils
+brave-bin
 breeze-gtk
 btrfs-progs
 cantarell-fonts
@@ -26,6 +27,8 @@ cups
 cups-browsed
 cups-filters
 cups-pdf
+deluge
+deluge-gtk
 device-mapper
 diffutils
 dmidecode
@@ -56,6 +59,7 @@ exfatprogs
 eza
 f2fs-tools
 fastfetch
+feh
 ffmpegthumbnailer
 ffmpegthumbs
 firewalld
@@ -193,6 +197,7 @@ sof-firmware
 spectacle
 speedcrunch
 splix
+steam
 sudo
 sysfsutils
 system-config-printer
@@ -216,6 +221,7 @@ welcome
 wget
 which
 wireplumber
+wl-clipboard
 wpa_supplicant
 xdg-desktop-portal-kde
 xdg-user-dirs
@@ -235,4 +241,5 @@ xsettingsd
 xterm
 xwaylandvideobridge
 yay
+zen-browser-avx2-bin
 zoxide

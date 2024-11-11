@@ -1,5 +1,7 @@
 atlauncher-bin
+brave-bin
 code-marketplace
 floorp-bin
 tidal-hifi-bin
 vesktop-bin
+zen-browser-avx2-bin
