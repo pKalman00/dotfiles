@@ -8,12 +8,16 @@ b)
     yay -Qmq >~/aur_packages.txt
     echo "yay done"
     pacman -Qqe >~/pacman_packages.txt
-    echo "pacman done"
     # filter aur from pacman
     grep -v -Fxf ~/aur_packages.txt ~/pacman_packages.txt >~/pacman_packages.tmp
     rsync -arz ~/pacman_packages.tmp ~/pacman_packages.txt
     rm ~/pacman_packages.tmp
-    # prompt to sync to the repo (not applicable in case the script is run separately)
+    # filter exclude from pacman
+    grep -v -Fxf packages/exclude.txt ~/pacman_packages.txt >~/pacman_packages.tmp
+    rsync -arz ~/pacman_packages.tmp ~/pacman_packages.txt
+    rm ~/pacman_packages.tmp
+    echo "pacman done"
+    # prompt to sync to the repo
     read -p "Sync lists to repo? (y/n) " asw
     case $asw in
     y)
