@@ -1,4 +1,4 @@
 function ls --wraps=eza --description 'alias ls=eza'
-  eza --group-directories-first $argv
+  eza -a --group-directories-first $argv
         
 end

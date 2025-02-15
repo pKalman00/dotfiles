@@ -1,7 +1,17 @@
+android-studio
 atlauncher-bin
 brave-bin
 code-marketplace
+davinci-resolve
 floorp-bin
+lunar-client
+magiskboot-bin
+onlyoffice-bin
+payload-dumper-go-bin
+reiserfsprogs
+spicetify-cli
+spotify
 tidal-hifi-bin
 vesktop-bin
+xwayland-run-git
 zen-browser-avx2-bin
