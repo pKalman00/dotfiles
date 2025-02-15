@@ -1,6 +1,4 @@
-android-studio
 atlauncher-bin
-brave-bin
 code-marketplace
 davinci-resolve
 floorp-bin
@@ -14,4 +12,3 @@ spotify
 tidal-hifi-bin
 vesktop-bin
 xwayland-run-git
-zen-browser-avx2-bin
