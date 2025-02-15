@@ -4,11 +4,9 @@ alsa-firmware
 alsa-plugins
 alsa-utils
 amd-ucode
-android-studio
 android-tools
 ark
 aspell
-atlauncher-bin
 b43-fwcutter
 base
 base-devel
@@ -18,18 +16,15 @@ bind
 bluedevil
 bluez
 bluez-utils
-brave-bin
 breeze-gtk
 btrfs-progs
 cantarell-fonts
 code
-code-marketplace
 cryptsetup
 cups
 cups-browsed
 cups-filters
 cups-pdf
-davinci-resolve
 device-mapper
 diffutils
 dmidecode
@@ -65,7 +60,6 @@ ffmpegthumbnailer
 ffmpegthumbs
 firewalld
 fish
-floorp-bin
 foomatic-db
 foomatic-db-engine
 foomatic-db-gutenprint-ppds
@@ -129,9 +123,7 @@ linux-lts-headers
 logrotate
 lsb-release
 lsscsi
-lunar-client
 lvm2
-magiskboot-bin
 maliit-keyboard
 man-db
 man-pages
@@ -157,12 +149,10 @@ nss-mdns
 ntfs-3g
 ntp
 okular
-onlyoffice-bin
 openssh
 pacman-contrib
 partitionmanager
 pavucontrol
-payload-dumper-go-bin
 perl
 pipewire-alsa
 pipewire-jack
@@ -193,7 +183,6 @@ qbittorrent
 rebuild-detector
 reflector
 reflector-simple
-reiserfsprogs
 rsync
 rtkit
 s-nail
@@ -205,9 +194,7 @@ smartmontools
 sof-firmware
 spectacle
 speedcrunch
-spicetify-cli
 splix
-spotify
 steam
 sudo
 sysfsutils
@@ -215,7 +202,6 @@ system-config-printer
 systemd-sysvcompat
 tenacity
 texinfo
-tidal-hifi-bin
 tldr
 ttf-bitstream-vera
 ttf-dejavu
@@ -226,7 +212,6 @@ unzip
 upower
 usb_modeswitch
 usbutils
-vesktop-bin
 vi
 welcome
 wezterm
@@ -254,5 +239,4 @@ xsettingsd
 xterm
 xwaylandvideobridge
 yay
-zen-browser-avx2-bin
 zoxide
