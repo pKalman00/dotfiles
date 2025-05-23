@@ -4,11 +4,14 @@ davinci-resolve
 floorp-bin
 lunar-client
 magiskboot-bin
+nyaa-bin
 onlyoffice-bin
 payload-dumper-go-bin
+python-num2words
 reiserfsprogs
 spicetify-cli
 spotify
 tidal-hifi-bin
-vesktop-bin
-xwayland-run-git
+ttf-ms-win10-auto
+vesktop
+xwaylandvideobridge
