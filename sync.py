@@ -60,6 +60,10 @@ class Setup:
             "oh-my-posh": {
                 "system": os.path.expanduser("~/.config/oh-my-posh/omp.json"),
                 "repo": "./oh-my-posh/omp.json"
+            },
+            "nvim": {
+                "system": os.path.expanduser("~/.config/nvim"),
+                "repo": "./nvim"
             }
             
             # more
