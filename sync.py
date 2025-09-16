@@ -62,7 +62,7 @@ class Setup:
                 "repo": "./oh-my-posh/omp.json"
             },
             "nvim": {
-                "system": os.path.expanduser("~/.config/nvim"),
+                "system": os.path.expanduser("~/.config/"),
                 "repo": "./nvim"
             }
             
