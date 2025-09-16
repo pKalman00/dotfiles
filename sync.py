@@ -60,10 +60,6 @@ class Setup:
             "oh-my-posh": {
                 "system": os.path.expanduser("~/.config/oh-my-posh/omp.json"),
                 "repo": "./oh-my-posh/omp.json"
-            },
-            "SpeedCrunch": {
-                "system": os.path.expanduser("~/.config/SpeedCrunch/SpeedCrunch.ini"),
-                "repo": "./SpeedCrunch/SpeedCrunch.ini"
             }
             
             # more
