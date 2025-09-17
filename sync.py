@@ -20,6 +20,14 @@ DOTFILES_CONFIG = {
         "system": "~/.config/fish/",
         "repo": "./fish/"
     },
+    "hypr": {
+        "system": "~/.config/hypr/",
+        "repo": "./hypr/"
+    },
+    "kitty": {
+        "system": "~/.config/kitty/",
+        "repo": "./kitty/"
+    },
     "nvim": {
         "system": "~/.config/nvim/",
         "repo": "./nvim/"
@@ -27,6 +35,14 @@ DOTFILES_CONFIG = {
     "oh-my-posh": {
         "system": "~/.config/oh-my-posh/",
         "repo": "./oh-my-posh/"
+    },
+    "rofi": {
+        "system": "~/.config/rofi",
+        "repo": "./rofi/"
+    },
+    "waybar": {
+        "system": "~/.config/waybar",
+        "repo": "~/waybar/"
     }
 }
 
