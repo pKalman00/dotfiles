@@ -7,7 +7,15 @@ return {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
     },
-
+    
+    {
+        "lewis6991/gitsigns.nvim",
+        lazy = false, -- Load gitsigns on startup
+        config = function()
+            require("gitsigns").setup({})
+        end,
+    },
+    
     {
         "vhyrro/luarocks.nvim",
         priority = 1000,
