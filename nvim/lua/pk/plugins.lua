@@ -73,7 +73,6 @@ return {
                 },
                 git = { enable = true, },
                 filters = { dotfiles = false, },
-                auto_open = true,
                 update_focused_file = {
                     enable = true,
                     update_root = true,
