@@ -1,40 +1,47 @@
 return {
     'folke/lazy.nvim',
 
+    { "nvim-tree/nvim-web-devicons", opts = {} },
+    
+    {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+    },
+
+    {
+        "vhyrro/luarocks.nvim",
+        priority = 1000,
+        config = true,
+    },
+
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.8', -- Or branch = '0.1.x' if you prefer
+        branch = '0.1.x',
         dependencies = { {'nvim-lua/plenary.nvim'} },
         config = function()
-            -- This is the content from your after/plugin/telescope.lua
             local builtin = require('telescope.builtin')
             vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = "Telescope Find Files" })
             vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = "Telescope Git Files" })
             vim.keymap.set('n', '<leader>ps', function()
                 builtin.grep_string({ search = vim.fn.input("Grep > ") })
             end, { desc = "Telescope Grep String" }) -- Removed the trailing comma here
-            -- Any other Telescope setup (e.g., custom pickers, themes) would go here
-        end,
-    }, -- This comma is correct as it separates the Telescope plugin table from the Nightfox plugin table
-
-    {
-        "EdenEast/nightfox.nvim",
-        name = "nightfox", -- Lazy.nvim often prefers 'name' over 'as' for clarity
-        lazy = false,      -- Load this plugin immediately
-        priority = 1000,   -- Ensure theme loads before other things
-        config = function()
-            vim.cmd("colorscheme nightfox")
-            -- If you want a specific style of nightfox (e.g., 'nightfox' or 'carbonfox'):
-            -- require('nightfox').setup({ options = { style = "nightfox" } })
         end,
     },
 
-    -- nvim-treesitter
+    {
+        "EdenEast/nightfox.nvim",
+        name = "nightfox",
+        lazy = false,
+        priority = 999,
+        config = function()
+            vim.cmd("colorscheme nightfox")
+        end,
+    },
+
     {
         'nvim-treesitter/nvim-treesitter',
-        build = ":TSUpdate", -- This will run TSUpdate after installation/update
+        build = ":TSUpdate",
         config = function()
-            -- This is the content from your after/plugin/treesitter.lua
             require'nvim-treesitter.configs'.setup {
                 ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
                 sync_install = false,
@@ -43,8 +50,34 @@ return {
                     enable = true,
                     additional_vim_regex_highlighting = false,
                 },
-                -- If you had an `indent` table, add it here:
-                indent = { enable = true }, -- Assuming you want indent as well
+                indent = { enable = true },
+            }
+        end,
+    },
+    {
+        "nvim-tree/nvim-tree.lua",
+        version = "*",
+        lazy = false,
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
+        config = function()
+            require("nvim-tree").setup {
+                view = {
+                    width = 30,
+                    side = "right",
+                    float = { enable = false, },
+                },
+                actions = {
+                    open_file = { quit_on_open = true, },
+                },
+                git = { enable = true, },
+                filters = { dotfiles = false, },
+                auto_open = true,
+                update_focused_file = {
+                    enable = true,
+                    update_root = true,
+                },
             }
         end,
     },
