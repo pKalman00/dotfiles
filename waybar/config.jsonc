@@ -59,7 +59,8 @@
   },
   "clock": {
     "interval": 1,
-    "format": "󰃰 {:%A, %B %d [%H:%M:%S]}",
+    // "format": "󰃰 {:%A, %B %d [%H:%M:%S]}",
+    "format": "󰃰 {:%H:%M - %b %d}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "year",
