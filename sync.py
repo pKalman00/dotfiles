@@ -43,6 +43,10 @@ DOTFILES_CONFIG = {
     "waybar": {
         "system": "~/.config/waybar",
         "repo": "./waybar/"
+    },
+    "yazi": {
+        "system": "~/.config/yazi",
+        "repo": "./yazi/"
     }
 }
 

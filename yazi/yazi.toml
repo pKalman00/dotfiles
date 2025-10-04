@@ -1,0 +1,40 @@
+[mgr]
+ratio = [1, 4, 3]
+sort_by = "natural"
+sort_sensitive = false
+sort_dir_first = true
+sort_translit = true
+linemode = "size"
+scrolloff = 5
+title_format = "{cwd}"
+
+[preview]
+wrap = "no"
+tab_size = 4
+# image_filter = "nearest"
+# image_filter = "catmull-rom"
+image_filter = "lanczos3"
+
+[opener]
+video = [
+    { run = 'mpv "$@"', orphan = true }
+]
+text = [
+    { run = '$EDITOR "$@"', block = true }
+]
+image = [
+    { run = 'feh "$@"', orphan = true }
+]
+fallback = [
+    { run = 'xdg-open "$@"', desc = "Fallback" }
+]
+
+[open]
+rules = [
+    { mime = "video/*", use = "video" },
+    { mime = "text/*", use = "text" },
+    { mime = "image/*", use = "image" }
+]
+append_rules = [
+    { name = "*", use = "open" }
+]
