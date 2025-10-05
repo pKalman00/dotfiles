@@ -7,6 +7,7 @@ sort_translit = true
 linemode = "size"
 scrolloff = 5
 title_format = "{cwd}"
+show_symlink = false
 
 [preview]
 wrap = "no"
@@ -20,13 +21,13 @@ video = [
     { run = 'mpv "$@"', orphan = true }
 ]
 text = [
-    { run = '$EDITOR "$@"', block = true }
+    { run = 'nvim "$@"', block = true }
 ]
 image = [
     { run = 'feh "$@"', orphan = true }
 ]
 fallback = [
-    { run = 'xdg-open "$@"', desc = "Fallback" }
+    { run = 'xdg-open "$@"', desc = "xdg-open" }
 ]
 
 [open]
@@ -36,5 +37,15 @@ rules = [
     { mime = "image/*", use = "image" }
 ]
 append_rules = [
-    { name = "*", use = "open" }
+    { name = "*", use = [ "fallback", "text" ] }
 ]
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*"
+run  = "git"
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*/"
+run  = "git"
