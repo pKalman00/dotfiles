@@ -12,6 +12,7 @@ show_symlink = false
 [preview]
 wrap = "no"
 tab_size = 4
+image_delay = 0
 # image_filter = "nearest"
 # image_filter = "catmull-rom"
 image_filter = "lanczos3"
