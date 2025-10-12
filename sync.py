@@ -52,30 +52,14 @@ DOTFILES_CONFIG = {
 
 
 class DotfileManager:
-    """Main class for managing dotfile synchronization and backups"""
+    # Main class for managing dotfile synchronization and backups
     
     def __init__(self, config: Dict[str, Dict[str, str]], dry_run: bool = False):
-        """
-        Initialize the dotfile manager with configuration
-        
-        Args:
-            config: Dictionary mapping dotfile names to system/repo paths
-            dry_run: If True, show what would be done without executing
-        """
         self.script_dir = Path(__file__).parent.absolute()
         self.config = self._expand_paths(config)
         self.dry_run = dry_run
         
     def _expand_paths(self, config: Dict[str, Dict[str, str]]) -> Dict[str, Dict[str, Path]]:
-        """
-        Expand user paths and convert strings to Path objects
-        
-        Args:
-            config: Raw configuration with string paths
-            
-        Returns:
-            Configuration with expanded Path objects
-        """
         expanded = {}
         for name, paths in config.items():
             expanded[name] = {
@@ -85,15 +69,6 @@ class DotfileManager:
         return expanded
     
     def _confirm_operation(self, message: str) -> bool:
-        """
-        Ask user for confirmation
-        
-        Args:
-            message: Message to display
-            
-        Returns:
-            True if user confirms, False otherwise
-        """
         if self.dry_run:
             return True
             
@@ -107,18 +82,6 @@ class DotfileManager:
                 print("Please enter 'y' or 'n'")
     
     def _run_rsync(self, source: Path, dest: Path, description: str, delete_extra: bool = False) -> bool:
-        """
-        Run rsync command with proper options
-        
-        Args:
-            source: Source path
-            dest: Destination path  
-            description: Description for logging
-            delete_extra: Whether to delete files in dest that don't exist in source
-            
-        Returns:
-            True if successful, False otherwise
-        """
         # Create destination parent directory if it doesn't exist
         if not self.dry_run:
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -159,15 +122,6 @@ class DotfileManager:
             return False
     
     def deploy(self, dotfiles: Optional[List[str]] = None) -> bool:
-        """
-        Deploy dotfiles from repository to system locations
-        
-        Args:
-            dotfiles: List of specific dotfiles to deploy. If None, deploy all.
-            
-        Returns:
-            True if all operations successful
-        """
         print("Deploying dotfiles from repository to system...")
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -203,15 +157,6 @@ class DotfileManager:
         return success
     
     def retrieve(self, dotfiles: Optional[List[str]] = None) -> bool:
-        """
-        Retrieve dotfiles from system to repository
-
-        Args:
-            dotfiles: List of specific dotfiles to retrieve. If None, retrieve all.
-
-        Returns:
-            True if all operations successful
-        """
         print("Retrieving dotfiles from system to repository...")
 
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -269,15 +214,6 @@ class DotfileManager:
         return success
     
     def create_backup(self, dotfiles: Optional[List[str]] = None) -> bool:
-        """
-        Create backup copies of system files
-        
-        Args:
-            dotfiles: List of specific dotfiles to backup. If None, backup all.
-            
-        Returns:
-            True if all operations successful
-        """
         print("Creating backups of system files...")
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -320,15 +256,6 @@ class DotfileManager:
         return success
     
     def restore_backup(self, dotfiles: Optional[List[str]] = None) -> bool:
-        """
-        Restore files from backup copies
-        
-        Args:
-            dotfiles: List of specific dotfiles to restore. If None, restore all.
-            
-        Returns:
-            True if all operations successful
-        """
         print("Restoring from backup files...")
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -367,15 +294,6 @@ class DotfileManager:
         return success
     
     def delete_backup(self, dotfiles: Optional[List[str]] = None) -> bool:
-        """
-        Delete backup files
-        
-        Args:
-            dotfiles: List of specific dotfile backups to delete. If None, delete all.
-            
-        Returns:
-            True if all operations successful
-        """
         print("Deleting backup files...")
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -423,7 +341,6 @@ class DotfileManager:
         return success
     
     def list_dotfiles(self):
-        """List all configured dotfiles with their paths"""
         print("Configured dotfiles:")
         for name, paths in self.config.items():
             system_exists = "EXISTS" if paths['system'].exists() else "MISSING"
@@ -436,7 +353,6 @@ class DotfileManager:
 
 
 def interactive_menu():
-    """Show interactive menu when no arguments provided"""
     while True:
         print("\nDotfiles Manager - Interactive Mode")
         print("===================================")
@@ -497,7 +413,6 @@ def interactive_menu():
 
 
 def create_argument_parser() -> argparse.ArgumentParser:
-    """Create and configure argument parser"""
     parser = argparse.ArgumentParser(
         description="Dotfiles Manager - Sync configuration files between system and repository",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -563,7 +478,6 @@ Examples:
 
 
 def main():
-    """Main entry point"""
     parser = create_argument_parser()
     
     # If no arguments, show interactive menu
