@@ -1,7 +1,57 @@
+# Mount.yazi plugin
 [[mgr.prepend_keymap]]
 on  = "M"
 run = "plugin mount"
 
+# Drag-and-drop out of yazi
 [[mgr.prepend_keymap]]
 on  = "<C-n>"
 run = 'shell -- dragon-drop -x -i -T "$0"'
+
+# Ouch plugin
+[[mgr.prepend_keymap]]
+on = "C"
+run = "plugin ouch"
+desc = "Compress with ouch"
+
+# Chmod plugin
+[[mgr.prepend_keymap]]
+on   = [ "c", "m" ]
+run  = "plugin chmod"
+desc = "Chmod on selected files"
+
+# Recycle-bin plugin
+[[mgr.prepend_keymap]]
+on = [ "R", "b"]
+run = "plugin recycle-bin"
+
+# wl-clipboard plugin
+[[mgr.prepend_keymap]]
+on = "<C-y>"
+run = "plugin wl-clipboard"
+
+# Compress.yazi plugin
+# [[mgr.prepend_keymap]]
+# on   = [ "c", "a", "a" ]
+# run  = "plugin compress"
+# desc = "Compress"
+#
+# [[mgr.prepend_keymap]]
+# on   = [ "c", "a", "p" ]
+# run  = "plugin compress -p"
+# desc = "Compress (password)"
+#
+# [[mgr.prepend_keymap]]
+# on   = [ "c", "a", "h" ]
+# run  = "plugin compress -ph"
+# desc = "Compress (password+header)"
+#
+# [[mgr.prepend_keymap]]
+# on   = [ "c", "a", "l" ]
+# run  = "plugin compress -l"
+# desc = "Compress (compression level)"
+#
+# [[mgr.prepend_keymap]]
+# on   = [ "c", "a", "u" ]
+# run  = "plugin compress -phl"
+# desc = "Compress (password+header+level)"
