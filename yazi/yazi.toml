@@ -30,6 +30,9 @@ image = [
 extract = [
     { run = 'ouch d -y "$@"', desc = "ouch: Extract here" }
 ]
+pdf = [
+    { run = 'zathura "$@"', orphan = true }
+]
 fallback = [
     { run = 'xdg-open "$@"', desc = "xdg-open" }
 ]
@@ -40,6 +43,7 @@ rules = [
     { mime = "text/*", use = "text" },
     { mime = "image/*", use = "image" },
     { mime = "application/zip", use = "extract" },
+    { mime = "application/pdf", use = "pdf" },
 ]
 append_rules = [
     { name = "*", use = [ "fallback", "text", "extract" ] }
@@ -79,3 +83,6 @@ run  = "git"
 id   = "git"
 name = "*/"
 run  = "git"
+
+[tasks]
+image_bound = [ 10000, 10000 ]
