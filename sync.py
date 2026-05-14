@@ -8,10 +8,6 @@ from typing import Dict, List, Optional
 
 # CENTRAL CONFIGURATION - Easy to modify
 DOTFILES_CONFIG = {
-    "alacritty": {
-        "system": "~/.config/alacritty/",
-        "repo": "./alacritty/"
-    },
     "fastfetch": {
         "system": "~/.config/fastfetch/",
         "repo": "./fastfetch/"
