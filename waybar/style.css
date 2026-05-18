@@ -15,7 +15,7 @@
 * {
     border: none;
     border-radius: 10px;
-    font-family: "JetBrainsMono Nerd Font";
+    font-family: "JetBrains Mono";
     font-weight: bold;
     font-size: 10pt;
     min-height: 0;
@@ -70,8 +70,8 @@ tooltip {
 #window,
 #clock,
 #battery,
-#pulseaudio,
-#pulseaudio.microphone,
+#wireplumber,
+#wireplumber.source,
 #network,
 #bluetooth,
 #custom-notifications,
@@ -81,8 +81,6 @@ tooltip {
 #tray,
 #memory,
 #disk,
-#backlight,
-
 #backlight {
     background: #000000;
     opacity: 1.0;
@@ -147,7 +145,7 @@ tooltip {
 #custom-player {
  color: #cba6f7;
  border-radius: 7px 7px 7px 7px;
- padding-left: 4px;
+ padding-left: 7px;
  margin-left:  5px;
  margin-right: 5px;
 }
@@ -171,13 +169,13 @@ tooltip {
   margin-right: 5px;
 }
 
-#pulseaudio {
+#wireplumber {
   color: #89b4fa;
   border-radius: 7px 0px 0px 7px;
   margin-right: 0px;
 }
 
-#pulseaudio.microphone {
+#wireplumber.source {
     color: #cba6f7;
     border-radius: 0px 7px 7px 0px;
     margin-left: 0px;
