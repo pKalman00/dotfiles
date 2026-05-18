@@ -19,7 +19,7 @@ window {
     width:              30%;
     padding:            10px;
     fullscreen:         false;
-    border:             3px solid;
+    border:             2px solid;
     border-radius:      10px;
     border-color:       @accent;
     background-color:   @bg;   
