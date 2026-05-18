@@ -1,0 +1,16 @@
+* {
+    bg:             #0a0e1a;
+    surface:        #141b28;
+    surface-alt:    #1a2332;
+    
+    accent:         #4a9eff;
+    accent-dim:     #2d6fa3;
+
+    urgent:         #ff5555;
+    
+    text:           #e0e6f0;
+    text-dim:       #8892a8;
+    
+    error:          #ff6b6b;
+    warning:        #ffa94d;
+}
