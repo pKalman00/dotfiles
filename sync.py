@@ -24,6 +24,10 @@ DOTFILES_CONFIG = {
         "system": "~/.config/kitty/",
         "repo": "./kitty/"
     },
+    "mako": {
+        "system": "~/.config/mako/",
+        "repo": "./mako/"
+    },
     "nvim": {
         "system": "~/.config/nvim/",
         "repo": "./nvim/"
