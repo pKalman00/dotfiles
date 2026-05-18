@@ -12,6 +12,8 @@ configuration {
     drun-display-format:    "{name}";
     window-format:          "{w} · {c} · {t}";
     font:                   "JetBrains Mono Bold 12";
+    kb-custom-1:            "Alt+Delete";
+    kb-custom-2:            "Alt+w";
 }
 window {
     width:              30%;

@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
-if [ "$#" -eq 0 ]; then
-    # Stage 1: Feed the list to Rofi
-    cliphist list
-else
-    # Stage 2: Handle the selection
-    # Use 'echo -n' and 'cliphist decode' to get the original content back to the clipboard
-    echo "$1" | cliphist decode | wl-copy
+if [ "$ROFI_RETV" -eq 0 ]; then
+    echo -en "\0use-hot-keys\x1ftrue\n"
+    cliphist list | while read -r line; do
+        content=$(echo "$line" | cut -f2-)
+        echo -en "${content}\0info\x1f${line}\n"
+    done
+elif [ "$ROFI_RETV" -eq 1 ]; then
+    echo "$ROFI_INFO" | cliphist decode | wl-copy
+elif [ "$ROFI_RETV" -eq 10 ]; then
+    echo "$ROFI_INFO" | cliphist delete
+elif [ "$ROFI_RETV" -eq 11 ]; then
+    cliphist wipe
 fi
