@@ -1,7 +1,7 @@
 @import "colors.rasi"
 
 configuration {
-    modi:                   "drun,cliphist:~/.config/rofi/cliphist.sh,powermenu:~/.config/rofi/powermenu.sh";
+    modi:                   "drun,cliphist:~/.config/rofi/scripts/cliphist.sh,powermenu:~/.config/rofi/scripts/powermenu.sh";
     show-icons:             true;
     display-drun:           "";
     display-run:            "";
