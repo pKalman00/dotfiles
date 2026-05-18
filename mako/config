@@ -13,7 +13,7 @@ text-color=#e0e6f0
 border-color=#4a9eff
 
 # Misc
-format=<i>%a</i>\n<b>%s</b>\n%b
+format=<i><u>%a</u></i>\n<b>%s</b>\n%b
 default-timeout=8000
 
 [grouped]
