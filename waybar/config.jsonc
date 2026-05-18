@@ -159,7 +159,8 @@
     "format-icons": [
       "󰂎","󰁺","󰁻","󰁼","󰁽",
       "󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"
-    ]
+    ],
+    "on-click": "~/.config/rofi/scripts/battery_threshold.sh"
   },
 
   // ─────────────────────────────
