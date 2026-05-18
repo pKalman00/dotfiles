@@ -303,6 +303,8 @@ for i = 1, 10 do
 end
 
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
+hl.bind("SUPER + SHIFT + F23", hl.dsp.exec_cmd("notify-send 'Copilot Key pressed'"))
 
 -- Example special workspace (scratchpad)
 -- hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
