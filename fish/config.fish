@@ -4,7 +4,7 @@ if status is-interactive
     set -g fish_greeting ''
     set -gx EDITOR "nvim"
     set -gx VISUAL "nvim"
-    set -gx ANDROID_HOME $HOME/Android/sdk
+    set -gx ANDROID_HOME /opt/android-sdk/
     set JAVA_HOME /usr/java/jdk-17.0.1/
     # $PATH
     fish_add_path $ANDROID_HOME/cmdline-tools/latest/bin
