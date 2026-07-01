@@ -1,0 +1,13 @@
+# image movement
+scroll_up    k
+scroll_down  j
+scroll_left  h
+scroll_right l
+
+# zooming
+zoom_in  Up   f
+zoom_out Down d
+
+# unbind
+save_image
+save_filelist

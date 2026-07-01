@@ -12,6 +12,10 @@ DOTFILES_CONFIG = {
         "system": "~/.config/fastfetch/",
         "repo": "./fastfetch/"
     },
+    "feh": {
+        "system": "~/.config/feh/",
+        "repo": "./feh/"
+    },
     "fish": {
         "system": "~/.config/fish/",
         "repo": "./fish/"
