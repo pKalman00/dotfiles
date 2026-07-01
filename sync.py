@@ -20,9 +20,9 @@ DOTFILES_CONFIG = {
         "system": "~/.config/hypr/",
         "repo": "./hypr/"
     },
-    "jellyfin-mpv-shim": {
-        "system": "~/.config/jellyfin-mpv-shim",
-        "repo": "./jellyfin-mpv-shim/"
+    "jellyfin-desktop": {
+        "system": "~/.config/jellyfin-desktop/mpv/",
+        "repo": "./jellyfin-desktop/mpv/"
     },
     "kitty": {
         "system": "~/.config/kitty/",
