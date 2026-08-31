@@ -24,9 +24,9 @@ DOTFILES_CONFIG = {
         "system": "~/.config/hypr/",
         "repo": "./hypr/"
     },
-    "jellyfin-desktop": {
-        "system": "~/.config/jellyfin-desktop/mpv/",
-        "repo": "./jellyfin-desktop/mpv/"
+    "jellium-desktop": {
+        "system": "~/.config/jellium-desktop/mpv/",
+        "repo": "./jellium-desktop/mpv/"
     },
     "kitty": {
         "system": "~/.config/kitty/",
