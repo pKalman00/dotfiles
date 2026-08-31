@@ -4,14 +4,14 @@ local M = {}
 local const = require(".const")
 local utils = require(".utils")
 
-local function cover_layer_count(job)
+local function get_cover_layers(job)
 	local cache = ya.file_cache({ file = job.file, skip = 0 })
 	if not cache then
-		return 0
+		return {}
 	end
-	local layer_count = utils.get_state("f" .. tostring(cache))
-	if layer_count then
-		return layer_count
+	local covers = utils.get_state("f" .. tostring(cache))
+	if covers and type(covers) == "table" then
+		return covers
 	end
 	local output, err = Command("ffprobe"):arg({
 		"-v",
@@ -25,13 +25,19 @@ local function cover_layer_count(job)
 		tostring(job.file.path or job.file.cache or job.file.url.path or job.file.url),
 	}):output()
 	if err or not output then
-		return 0
+		return {}
 	end
-	layer_count = 0
+	covers = {}
 	local data = ya.json_decode(output.stdout)
-	layer_count = #data.streams
-	utils.set_state("f" .. tostring(cache), layer_count)
-	return layer_count
+	if type(data.streams) == "table" then
+		for _, stream in ipairs(data.streams) do
+			if stream.disposition and stream.disposition.attached_pic then
+				covers[#covers + 1] = stream.index
+			end
+		end
+	end
+	utils.set_state("f" .. tostring(cache), covers)
+	return covers
 end
 
 function M:peek(job)
@@ -79,14 +85,16 @@ function M:peek(job)
 				local label, value = str:match("(.*[^ ])  +: (.*)")
 				local line
 				if label then
-					if not const.skip_labels[label] then
+					if not (utils.get_state(const.STATE_KEY.skip_labels) or const.skip_labels)[label] then
 						line = ui.Line({
 							ui.Span(label .. ": "):style(ui.Style():fg("reset"):bold()),
 							ui.Span(value):style(th.spot.tbl_col or ui.Style():fg("blue")),
 						})
 					end
-				elseif str ~= "General" then
-					line = ui.Line({ ui.Span(str):style(th.spot.title or ui.Style():fg("green")) })
+				else
+					if not (utils.get_state(const.STATE_KEY.skip_section_labels) or {})[str] then
+						line = ui.Line({ ui.Span(str):style(th.spot.title or ui.Style():fg("green")) })
+					end
 				end
 
 				if line then
@@ -114,20 +122,17 @@ function M:peek(job)
 
 	if not no_metadata then
 		if EOF_mediainfo and #lines == 0 and mediainfo_job_skip > 0 then
-			if
-				cover_layer_count(job)
-				< (
-					1
-					+ math.floor(
-						math.max(
-							0,
-							utils.get_state(const.STATE_KEY.units)
-									and (math.abs(job.skip / utils.get_state(const.STATE_KEY.units)))
-								or 0
-						)
-					)
+			local covers = get_cover_layers(job)
+			local cover_index = math.floor(
+				math.max(
+					1,
+					utils.get_state(const.STATE_KEY.units)
+							and (math.abs(job.skip / utils.get_state(const.STATE_KEY.units)))
+						or 0
 				)
-			then
+			)
+
+			if not covers[cover_index] then
 				ya.emit("peek", {
 					math.max(0, (job.skip - (utils.get_state(const.STATE_KEY.units) or 0))),
 					only_if = job.file.url,
@@ -226,14 +231,14 @@ function M:preload(job)
 	local cache_img_url_cha = cache_img_url and fs.cha(cache_img_url)
 
 	-- NOTE: Only generate preview image when cache image is not exist
-	if not cache_img_url_cha or cache_img_url_cha.len <= 0 then
-		local cover_index = 0
+	if cache_img_url and (not cache_img_url_cha or cache_img_url_cha.len <= 0) then
 		local units = utils.get_state(const.STATE_KEY.units)
+		local covers = get_cover_layers(job)
+		local cover_index = covers[1] or 0
 		if units ~= nil then
-			local max_layer = cover_layer_count(job)
-			cover_index = math.floor(math.max(0, math.abs(job.skip / units)))
-			if cover_index + 1 > max_layer then
-				cover_index = math.max(0, max_layer - 1)
+			cover_index = math.floor(math.max(1, math.abs(job.skip / units)))
+			if not covers[cover_index] then
+				cover_index = math.max(0, #covers - 1)
 			end
 		end
 		local qv = 31 - math.floor(rt.preview.image_quality * 0.3)
@@ -261,36 +266,45 @@ function M:preload(job)
 			tostring(cache_img_url),
 		}):output()
 		-- NOTE: Some audio types doesn't have cover image -> error ""
-		if
-			(
-				audio_preload_output
-				and audio_preload_output.stderr ~= nil
-				and audio_preload_output.stderr ~= ""
-				and not audio_preload_output.stderr:find("Output file does not contain any stream")
-			) or audio_preload_err
-		then
+		if audio_preload_err then
 			ya.dbg("mediainfo", audio_preload_err)
-			ya.dbg("mediainfo", audio_preload_output.stderr)
 			err_msg = err_msg
-				.. string.format("Failed to start `%s`.\n Do you have `%s` installed?\n", "ffmpeg", "ffmpeg")
-		else
+				.. string.format(
+					"Failed to start `%s`.\n Error: %s\n",
+					"ffmpeg",
+					tostring(audio_preload_err or (audio_preload_output and audio_preload_output.stderr or ""))
+				)
+		elseif
+			audio_preload_output
+			and type(audio_preload_output.stderr) == "string"
+			and audio_preload_output.stderr:find("does not contain any stream")
+		then
+			ya.dbg("mediainfo", audio_preload_output and audio_preload_output.stderr)
 			cache_img_url_cha, _ = fs.cha(cache_img_url)
-			if not cache_img_url_cha then
-				-- NOTE: Workaround case audio has no cover image. Prevent regenerate preview image
-				audio_preload_output, audio_preload_err = require("magick")
-					.with_limit()
-					:arg({
-						"-size",
-						"1x1",
-						"canvas:none",
-						string.format("PNG32:%s", cache_img_url),
-					})
-					:output()
-				if (audio_preload_output.stderr ~= nil and audio_preload_output.stderr ~= "") or audio_preload_err then
-					ya.dbg("mediainfo", image_preload_err)
-					err_msg = err_msg
-						.. string.format("Failed to start `%s`.\n Do you have `%s` installed?\n", "magick", "magick")
-				end
+			if cache_img_url_cha then
+				fs.remove("file", Url(cache_img_url))
+			end
+			-- NOTE: Workaround case audio has no cover image. Prevent regenerate preview image
+			audio_preload_output, audio_preload_err = require("magick")
+				.with_limit()
+				:arg({
+					"-size",
+					"1x1",
+					"canvas:none",
+					string.format("PNG32:%s", cache_img_url),
+				})
+				:output()
+			if
+				(audio_preload_output and audio_preload_output.stderr ~= nil and audio_preload_output.stderr ~= "")
+				or audio_preload_err
+			then
+				ya.dbg("mediainfo", audio_preload_err or (audio_preload_output and audio_preload_output.stderr))
+				err_msg = err_msg
+					.. string.format(
+						"Failed to start `%s`.\n Error: %s\n",
+						"magick",
+						tostring(audio_preload_err or (audio_preload_output and audio_preload_output.stderr or ""))
+					)
 			end
 		end
 	end

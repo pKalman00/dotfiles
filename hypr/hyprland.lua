@@ -16,11 +16,18 @@
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 hl.monitor({
-    output   = "",
-    mode     = "preferred",
-    position = "auto",
-    scale    = "auto",
+    output   = "eDP-1",
+    mode     = "2880x1800@120.00Hz",
+    position = "0x0",
+    scale    = "2.00",
 })
+
+-- hl.monitor({
+--     output   = "",
+--     mode     = "preferred",
+--     position = "auto",
+--     scale    = "auto",
+-- })
 
 
 ---------------------
@@ -52,6 +59,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("/usr/lib/soteria-polkit/soteria")
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=KDE")
     hl.exec_cmd("mako")
+    hl.exec_cmd("snappy-switcher --daemon")
 end)
 
 
@@ -148,7 +156,7 @@ hl.curve("almostLinear",   { type = "bezier", points = { {0.5, 0.5},   {0.75, 1}
 hl.curve("quick",          { type = "bezier", points = { {0.15, 0},    {0.1, 1}     } })
 
 -- Default springs
-hl.curve("easy",           { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
+hl.curve("easy",           { type = "spring", mass = 1, stiffness = 238.1191, dampening = 24.21279333 })
 
 hl.animation({ leaf = "global",        enabled = true,  speed = 10,   bezier = "default" })
 hl.animation({ leaf = "border",        enabled = true,  speed = 5.39, bezier = "easeOutQuint" })
@@ -236,11 +244,18 @@ hl.config({
         follow_mouse = 1,
 
         sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
-
-        touchpad = {
-            natural_scroll = true,
-        },
+        
+        accel_profile = "flat",
+        natural_scroll = false,
     },
+})
+
+hl.device({
+    name = "asup1415:00-093a:300c-touchpad",
+    sensitivity = 0,
+    natural_scroll = true,
+    disable_while_typing = true,
+    accel_profile = "adaptive"
 })
 
 hl.gesture({
@@ -275,6 +290,8 @@ hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + I", hl.dsp.layout("togglesplit"))    -- dwindle only
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
@@ -302,8 +319,12 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
 end
 
+hl.bind("ALT + Tab", hl.dsp.exec_cmd("snappy-switcher next --mod alt"))
+hl.bind("SUPER + Tab", hl.dsp.exec_cmd("snappy-switcher next --workspace --mod super"))
+
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy && notify-send -a Grim "Area screenshot copied!"'))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd('grim - | wl-copy && notify-send -a Grim "Full screenshot copied!"'))
 hl.bind("SUPER + SHIFT + F23", hl.dsp.exec_cmd("notify-send 'Copilot Key pressed'"))
 
 -- Example special workspace (scratchpad)
@@ -381,3 +402,4 @@ hl.window_rule({
     move  = "20 monitor_h-120",
     float = true,
 })
+

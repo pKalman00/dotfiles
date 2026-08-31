@@ -6,7 +6,7 @@ run = "plugin mount"
 # Drag-and-drop out of yazi
 [[mgr.prepend_keymap]]
 on  = "<C-n>"
-run = 'shell -- dragon-drop -x -i -T "$0"'
+run = 'shell -- dragon-drop -x -i -T "$s"'
 
 # Ouch plugin
 [[mgr.prepend_keymap]]

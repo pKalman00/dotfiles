@@ -19,22 +19,22 @@ image_filter = "lanczos3"
 
 [opener]
 video = [
-    { run = 'mpv "$@"', orphan = true }
+    { run = 'mpv "%s"', orphan = true }
 ]
 text = [
-    { run = 'nvim "$@"', block = true }
+    { run = 'nvim "%s"', block = true }
 ]
 image = [
-    { run = 'feh "$@"', orphan = true }
+    { run = 'feh "%s"', orphan = true }
 ]
 extract = [
-    { run = 'ouch d -y "$@"', desc = "ouch: Extract here" }
+    { run = 'ouch d -y "%s"', desc = "ouch: Extract here" }
 ]
 pdf = [
-    { run = 'zathura "$@"', orphan = true }
+    { run = 'zathura "%s"', orphan = true }
 ]
 fallback = [
-    { run = 'xdg-open "$@"', desc = "xdg-open" }
+    { run = 'xdg-open "%s"', desc = "xdg-open" }
 ]
 
 [open]

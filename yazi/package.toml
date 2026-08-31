@@ -1,37 +1,37 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "1db18bb"
-hash = "eff8ff12fa4e5f035a10d8aeeb4c258d"
+rev = "c591a36"
+hash = "f281261ff04ad7ec867c3f802a50835f"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "1db18bb"
-hash = "c8d30a70659f1b880407e61c564ab4e8"
+rev = "c591a36"
+hash = "5bb0bfab901d3601c370eafdd66edd31"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "1db18bb"
-hash = "e3260d0b1feded8c8e3ae3afa1169e30"
+rev = "c591a36"
+hash = "b95f898e6dc60b52edbc415952e14395"
 
 [[plugin.deps]]
 use = "boydaihungst/mediainfo"
-rev = "49f5ab7"
-hash = "6e3b5e58f985cc2d625e0030dc35b1b2"
+rev = "73a3658"
+hash = "22d1a0b62204808b670771468f09c400"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
-rev = "406ce6c"
-hash = "f5afc904d5106ee368c8aa2ded43bd74"
+rev = "cfe4f50"
+hash = "eff5702573b6cfba61e4ac8b1969629a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "1db18bb"
-hash = "f0c8c378184d5f8abd1b095a443d336d"
+rev = "c591a36"
+hash = "87472b05a8c420100f6a2b9cde1e7746"
 
 [[plugin.deps]]
 use = "uhs-robert/recycle-bin"
-rev = "fa68711"
-hash = "8714306b5cac6359edbacbf545fbd691"
+rev = "fe48a02"
+hash = "edd449b02a169bd8fee052be96a31823"
 
 [[plugin.deps]]
 use = "grappas/wl-clipboard"
@@ -40,13 +40,13 @@ hash = "5c587834c274dca9059092714ece1f18"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "a837101"
-hash = "635b0feb9215772d22020eb0abf0bb34"
+rev = "ea92cf4"
+hash = "9776f378459072b6c2875eae5addc49d"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:dracula"
-rev = "0670801"
-hash = "20624fcdfcf7e4e912de05e348065e5e"
+rev = "20b47bf"
+hash = "40136c9a02e166067a36d9ad618887f2"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
