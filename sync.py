@@ -36,6 +36,10 @@ DOTFILES_CONFIG = {
         "system": "~/.config/mako/",
         "repo": "./mako/"
     },
+    "mpv": {
+        "system": "~/.config/mpv/",
+        "repo": "./mpv/"
+    },
     "nvim": {
         "system": "~/.config/nvim/",
         "repo": "./nvim/"
