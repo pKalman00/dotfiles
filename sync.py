@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import os
 import sys
 import subprocess
@@ -6,7 +5,6 @@ import argparse
 from pathlib import Path
 from typing import Dict, List, Optional
 
-# CENTRAL CONFIGURATION - Easy to modify
 DOTFILES_CONFIG = {
     "fastfetch": {
         "system": "~/.config/fastfetch/",
@@ -64,8 +62,6 @@ DOTFILES_CONFIG = {
 
 
 class DotfileManager:
-    # Main class for managing dotfile synchronization and backups
-    
     def __init__(self, config: Dict[str, Dict[str, str]], dry_run: bool = False):
         self.script_dir = Path(__file__).parent.absolute()
         self.config = self._expand_paths(config)
@@ -98,7 +94,6 @@ class DotfileManager:
         if not self.dry_run:
             dest.parent.mkdir(parents=True, exist_ok=True)
         
-        # Build rsync command
         rsync_args = ["rsync", "-avh", "--progress"]
         
         if delete_extra:
@@ -138,7 +133,6 @@ class DotfileManager:
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
         
-        # Show what will be deployed
         print("\nFiles to deploy:")
         for name in target_dotfiles:
             if name not in self.config:
@@ -173,7 +167,6 @@ class DotfileManager:
 
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
 
-        # Show what will be retrieved and check for potential issues
         print("\nFiles to retrieve:")
         warnings = []
         for name in target_dotfiles:
@@ -192,7 +185,6 @@ class DotfileManager:
             else:
                 print(f"  {name}: {paths['system']} -> {paths['repo']}")
 
-        # Show warnings if any
         if warnings:
             print("\nDANGER WARNINGS:")
             for warning in warnings:
@@ -230,7 +222,6 @@ class DotfileManager:
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
         
-        # Show what will be backed up
         print("\nFiles to backup:")
         for name in target_dotfiles:
             if name not in self.config:
@@ -272,7 +263,6 @@ class DotfileManager:
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
         
-        # Show what will be restored
         print("\nFiles to restore:")
         for name in target_dotfiles:
             if name not in self.config:
@@ -310,7 +300,6 @@ class DotfileManager:
         
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
         
-        # Show what will be deleted
         print("\nBackup files to delete:")
         backups_to_delete = []
         for name in target_dotfiles:
@@ -388,7 +377,6 @@ def interactive_menu():
                 selection = input("Enter dotfile names (space-separated, or press Enter for all): ").strip()
                 dotfiles = selection.split() if selection else None
                 
-                # Validate selection
                 if dotfiles:
                     invalid = set(dotfiles) - set(DOTFILES_CONFIG.keys())
                     if invalid:
