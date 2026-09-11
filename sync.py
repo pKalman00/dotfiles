@@ -372,7 +372,7 @@ class DotfileManager:
 
             paths = self.config[name]
 
-            # Check if both sides exits
+            # Check if both sides exist
             match (paths["repo"].exists(), paths["system"].exists()):
                 case (False, False):
                     print(
@@ -466,7 +466,7 @@ def create_argument_parser() -> argparse.ArgumentParser:
         epilog="""
 Examples:
     %(prog)s --deploy                    Deploy all dotfiles to system
-    %(prog)s --deploy nvim fish          Deploy specific dotfiles  
+    %(prog)s --deploy nvim fish          Deploy specific dotfiles
     %(prog)s --retrieve nvim             Retrieve specific dotfiles
     %(prog)s --backup --dry-run          Preview backup creation
     %(prog)s --restore --delete-backup   Restore and clean up backups
@@ -516,7 +516,7 @@ Examples:
     parser.add_argument(
         "-f", "--diff",
         action="store_true",
-        help="Show the difference between the repo and system version of dotifles"
+        help="Show the difference between the repo and system versions of dotfiles"
     )
 
     # Target specific dotfiles
