@@ -422,8 +422,12 @@ def interactive_menu():
                         print(f"Error: Unknown dotfiles: {', '.join(invalid)}")
                         continue
 
-                dry_run = input(
-                    "Dry run? [y/N]: ").lower().strip() in ['y', 'yes']
+                # Only ask about dry run if it's applicable
+                if choice in ['d', 'r', 'b', 'R', 'D']:
+                    dry_run = input(
+                        "Dry run? [y/N]: ").lower().strip() in ['y', 'yes']
+                else:
+                    dry_run = False
 
                 manager = DotfileManager(DOTFILES_CONFIG, dry_run=dry_run)
 
