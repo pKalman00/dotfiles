@@ -1,3 +1,8 @@
+# Go to Projects
+[[mgr.prepend_keymap]]
+on   = [ "g", "p" ]
+run  = "cd ~/Projects"
+desc = "Go to Projects"
 # Mount.yazi plugin
 [[mgr.prepend_keymap]]
 on  = "M"
