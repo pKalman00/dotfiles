@@ -514,7 +514,7 @@ Examples:
         help="Show what would be done without making changes"
     )
     parser.add_argument(
-        "-f", "-diff",
+        "-f", "--diff",
         action="store_true",
         help="Show the difference between the repo and system version of dotifles"
     )
@@ -542,9 +542,13 @@ def main():
     # Initialize dotfile manager
     manager = DotfileManager(DOTFILES_CONFIG, dry_run=args.dry_run)
 
-    # Handle list operation first
+    # Handle list and operations first
     if args.list:
         manager.list_dotfiles()
+        return
+
+    if args.diff:
+        manager.diff(args.dotfiles)
         return
 
     # Validate dotfile names if specified
