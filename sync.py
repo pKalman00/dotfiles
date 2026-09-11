@@ -542,7 +542,7 @@ def main():
     # Initialize dotfile manager
     manager = DotfileManager(DOTFILES_CONFIG, dry_run=args.dry_run)
 
-    # Handle list and operations first
+    # Handle list and diff operations first
     if args.list:
         manager.list_dotfiles()
         return
