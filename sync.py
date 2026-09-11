@@ -82,9 +82,9 @@ class DotfileManager:
 
         while True:
             response = input(f"{message} [y/N]: ").lower().strip()
-            if response in ['y', 'yes']:
+            if response in ["y", "yes"]:
                 return True
-            elif response in ['n', 'no', '']:
+            elif response in ["n", "no", ""]:
                 return False
             else:
                 print("Please enter 'y' or 'n'")
@@ -103,8 +103,8 @@ class DotfileManager:
             rsync_args.append("--dry-run")
 
         # Ensure proper trailing slash handling for directories
-        source_str = str(source).rstrip('/') + '/'
-        dest_str = str(dest).rstrip('/') + '/'
+        source_str = str(source).rstrip("/") + "/"
+        dest_str = str(dest).rstrip("/") + "/"
 
         rsync_args.extend([source_str, dest_str])
 
@@ -354,8 +354,8 @@ class DotfileManager:
     def list_dotfiles(self):
         print("Configured dotfiles:")
         for name, paths in self.config.items():
-            system_exists = "EXISTS" if paths['system'].exists() else "MISSING"
-            repo_exists = "EXISTS" if paths['repo'].exists() else "MISSING"
+            system_exists = "EXISTS" if paths["system"].exists() else "MISSING"
+            repo_exists = "EXISTS" if paths["repo"].exists() else "MISSING"
 
             print(f"  {name}:")
             print(f"    System: {paths['system']} ({system_exists})")
@@ -385,7 +385,7 @@ class DotfileManager:
                     print(f"{name} does not exist on the system")
                     continue
 
-            run(f"diff -u {paths["repo"]} {paths["system"]} | diff-so-fancy",
+            run(f"diff -u {paths['repo']} {paths['system']} | diff-so-fancy",
                 text=True, shell=True)
 
 
@@ -405,10 +405,10 @@ def interactive_menu():
         try:
             choice = input("\nSelect operation: ").strip()
 
-            if choice == 'q':
+            if choice == "q":
                 print("Goodbye!")
                 break
-            elif choice in ['d', 'r', 'b', 'R', 'D', "f"]:
+            elif choice in ["d", "r", "b", "R", "D", "f"]:
                 # Show available dotfiles
                 print(
                     f"\nAvailable dotfiles: {', '.join(DOTFILES_CONFIG.keys())}")
@@ -423,9 +423,9 @@ def interactive_menu():
                         continue
 
                 # Only ask about dry run if it's applicable
-                if choice in ['d', 'r', 'b', 'R', 'D']:
+                if choice in ["d", "r", "b", "R", "D"]:
                     dry_run = input(
-                        "Dry run? [y/N]: ").lower().strip() in ['y', 'yes']
+                        "Dry run? [y/N]: ").lower().strip() in ["y", "yes"]
                 else:
                     dry_run = False
 
@@ -445,7 +445,7 @@ def interactive_menu():
                     case "f":
                         manager.diff(dotfiles)
 
-            elif choice == 'l':
+            elif choice == "l":
                 manager = DotfileManager(DOTFILES_CONFIG)
                 manager.list_dotfiles()
             else:
