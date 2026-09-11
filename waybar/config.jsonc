@@ -114,7 +114,7 @@
     "format":       "{icon} {volume}%",
     "format-muted": "",
     "tooltip": false,
-    "scroll-step": 5,
+    "scroll-step": 1,
     "max-volume": 100,
     "reverse-scrolling": true,
     "on-click":        "wpctl set-mute @DEFAULT_SINK@ toggle",
@@ -175,7 +175,7 @@
   // BACKLIGHT
   // ─────────────────────────────
   "backlight": {
-    "device": "intel_backlight",
+    // "device": "intel_backlight",
     "format": "{icon} {percent}%",
     "format-icons": [
       "󰃞",
