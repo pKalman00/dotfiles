@@ -369,6 +369,7 @@ class DotfileManager:
         for name in target_dotfiles:
             if name not in self.config:
                 print(f"  WARNING: '{name}' not found in configuration")
+                continue
 
             paths = self.config[name]
 
