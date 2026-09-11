@@ -3,7 +3,6 @@ import subprocess
 import argparse
 from pathlib import Path
 from typing import Dict, List, Optional
-from subprocess import run
 
 DOTFILES_CONFIG = {
     "fastfetch": {
@@ -386,8 +385,8 @@ class DotfileManager:
                     print(f"{name} does not exist on the system")
                     continue
 
-            run(f"diff -u {paths['repo']} {paths['system']} | diff-so-fancy",
-                text=True, shell=True)
+            subprocess.run(
+                f"diff -u {paths['repo']} {paths['system']} | diff-so-fancy", text=True, shell=True)
 
 
 def interactive_menu():
