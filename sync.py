@@ -1,9 +1,9 @@
-import os
 import sys
 import subprocess
 import argparse
 from pathlib import Path
 from typing import Dict, List, Optional
+from subprocess import run
 
 DOTFILES_CONFIG = {
     "fastfetch": {
@@ -362,6 +362,32 @@ class DotfileManager:
             print(f"    Repo:   {paths['repo']} ({repo_exists})")
             print()
 
+    def diff(self, dotfiles: Optional[List[str]] = None):
+        target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
+
+        # Validate input
+        for name in target_dotfiles:
+            if name not in self.config:
+                print(f"  WARNING: '{name}' not found in configuration")
+
+            paths = self.config[name]
+
+            # Check if both sides exits
+            match (paths["repo"].exists(), paths["system"].exists()):
+                case (False, False):
+                    print(
+                        f"{name} does not exist either in the repo or on the system")
+                    continue
+                case (False, True):
+                    print(f"{name} does not exist in the repo")
+                    continue
+                case (True, False):
+                    print(f"{name} does not exist on the system")
+                    continue
+
+            run(f"diff -u {paths["repo"]} {paths["system"]} | diff-so-fancy",
+                text=True, shell=True)
+
 
 def interactive_menu():
     while True:
@@ -373,6 +399,7 @@ def interactive_menu():
         print("R. Restore backup")
         print("D. Delete backup")
         print("l. List dotfiles")
+        print("f. Show the difference (repo - system)")
         print("q. Exit")
 
         try:
@@ -381,7 +408,7 @@ def interactive_menu():
             if choice == 'q':
                 print("Goodbye!")
                 break
-            elif choice in ['d', 'r', 'b', 'R', 'D']:
+            elif choice in ['d', 'r', 'b', 'R', 'D', "f"]:
                 # Show available dotfiles
                 print(
                     f"\nAvailable dotfiles: {', '.join(DOTFILES_CONFIG.keys())}")
@@ -400,22 +427,25 @@ def interactive_menu():
 
                 manager = DotfileManager(DOTFILES_CONFIG, dry_run=dry_run)
 
-                if choice == 'd':
-                    manager.deploy(dotfiles)
-                elif choice == 'r':
-                    manager.retrieve(dotfiles)
-                elif choice == 'b':
-                    manager.create_backup(dotfiles)
-                elif choice == 'R':
-                    manager.restore_backup(dotfiles)
-                elif choice == 'D':
-                    manager.delete_backup(dotfiles)
+                match choice:
+                    case "d":
+                        manager.deploy(dotfiles)
+                    case "r":
+                        manager.retrieve(dotfiles)
+                    case "b":
+                        manager.create_backup(dotfiles)
+                    case "R":
+                        manager.restore_backup(dotfiles)
+                    case "D":
+                        manager.delete_backup(dotfiles)
+                    case "f":
+                        manager.diff(dotfiles)
 
             elif choice == 'l':
                 manager = DotfileManager(DOTFILES_CONFIG)
                 manager.list_dotfiles()
             else:
-                print("Invalid choice. Please enter 1-7.")
+                print("Invalid choice.")
 
         except KeyboardInterrupt:
             print("\nGoodbye!")
@@ -478,6 +508,11 @@ Examples:
         "--dry-run",
         action="store_true",
         help="Show what would be done without making changes"
+    )
+    parser.add_argument(
+        "-f", "-diff",
+        action="store_true",
+        help="Show the difference between the repo and system version of dotifles"
     )
 
     # Target specific dotfiles
