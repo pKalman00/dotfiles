@@ -386,7 +386,7 @@ class DotfileManager:
                     continue
 
             subprocess.run(
-                f"diff -u {paths['repo']} {paths['system']} | diff-so-fancy", text=True, shell=True)
+                f"diff -ru {paths['repo']} {paths['system']} | diff-so-fancy", text=True, shell=True)
 
 
 def interactive_menu():
