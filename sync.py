@@ -46,15 +46,15 @@ DOTFILES_CONFIG = {
         "repo": "./oh-my-posh/"
     },
     "rofi": {
-        "system": "~/.config/rofi",
+        "system": "~/.config/rofi/",
         "repo": "./rofi/"
     },
     "waybar": {
-        "system": "~/.config/waybar",
+        "system": "~/.config/waybar/",
         "repo": "./waybar/"
     },
     "yazi": {
-        "system": "~/.config/yazi",
+        "system": "~/.config/yazi/",
         "repo": "./yazi/"
     },
     "zathura": {
