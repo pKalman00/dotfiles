@@ -56,7 +56,11 @@ DOTFILES_CONFIG = {
     "yazi": {
         "system": "~/.config/yazi",
         "repo": "./yazi/"
-    }
+    },
+    "zathura": {
+        "system": "~/.config/zathura/",
+        "repo": "./zathura/"
+    },
 }
 
 
