@@ -31,7 +31,7 @@ extract = [
     { run = 'ouch d -y "%s"', desc = "ouch: Extract here" }
 ]
 pdf = [
-    { run = 'zathura "%s"', orphan = true }
+    { run = 'zathura ""%s""', orphan = true }
 ]
 fallback = [
     { run = 'xdg-open "%s"', desc = "xdg-open" }
