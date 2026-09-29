@@ -4,7 +4,7 @@ return {
   build = ":TSUpdate",
   config = function()
     require("nvim-treesitter").install({
-      "lua", "vim", "vimdoc", "query", "python", "c", "rust",
+      "lua", "vim", "vimdoc", "query", "python", "c", "rust", "csv",
     })
 
     vim.api.nvim_create_autocmd("FileType", {
@@ -20,7 +20,8 @@ return {
           return
         end
 
-        if not pcall(vim.treesitter.language.add, lang) then
+        local ok, loaded = pcall(vim.treesitter.language.add, lang)
+        if not ok or not loaded then
           return
         end
 
