@@ -20,12 +20,12 @@ return {
           return
         end
 
-        local ok, loaded = pcall(vim.treesitter.language.add, lang)
-        if not ok or not loaded then
-          return
-        end
+        -- local ok, loaded = pcall(vim.treesitter.language.add, lang)
+        -- if not ok or not loaded then
+        --   return
+        -- end
 
-        vim.treesitter.start(args.buf, lang)
+        pcall(vim.treesitter.start, args.buf, lang)
       end,
     })
   end,
