@@ -7,3 +7,5 @@ vim.keymap.set({ "n", "v" }, "<leader>pf", function()
 end, { desc = "Format current buffer (Conform)" })
 
 vim.keymap.set('n', '<leader>pc', ':CsvViewToggle<CR>')
+
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
