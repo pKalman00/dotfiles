@@ -1,82 +1,33 @@
 import sys
 import subprocess
 import argparse
+import csv
 from pathlib import Path
 from typing import Dict, List, Optional
 
-DOTFILES_CONFIG = {
-    "fastfetch": {
-        "system": "~/.config/fastfetch/",
-        "repo": "./fastfetch/"
-    },
-    "feh": {
-        "system": "~/.config/feh/",
-        "repo": "./feh/"
-    },
-    "fish": {
-        "system": "~/.config/fish/",
-        "repo": "./fish/"
-    },
-    "hypr": {
-        "system": "~/.config/hypr/",
-        "repo": "./hypr/"
-    },
-    "jellium-desktop": {
-        "system": "~/.config/jellium-desktop/mpv/",
-        "repo": "./jellium-desktop/mpv/"
-    },
-    "kitty": {
-        "system": "~/.config/kitty/",
-        "repo": "./kitty/"
-    },
-    "mako": {
-        "system": "~/.config/mako/",
-        "repo": "./mako/"
-    },
-    "mpv": {
-        "system": "~/.config/mpv/",
-        "repo": "./mpv/"
-    },
-    "nvim": {
-        "system": "~/.config/nvim/",
-        "repo": "./nvim/"
-    },
-    "oh-my-posh": {
-        "system": "~/.config/oh-my-posh/",
-        "repo": "./oh-my-posh/"
-    },
-    "rofi": {
-        "system": "~/.config/rofi/",
-        "repo": "./rofi/"
-    },
-    "waybar": {
-        "system": "~/.config/waybar/",
-        "repo": "./waybar/"
-    },
-    "yazi": {
-        "system": "~/.config/yazi/",
-        "repo": "./yazi/"
-    },
-    "zathura": {
-        "system": "~/.config/zathura/",
-        "repo": "./zathura/"
-    },
-}
+
+DOTFILE_PATHS = {}
+with open("dots.csv", "r") as f:
+    for row in csv.DictReader(f):
+        DOTFILE_PATHS[row["Name"]] = (row["System"], row["Repo"])
+
+SYSTEM_PATH = 0
+REPO_PATH = 1
 
 
 class DotfileManager:
-    def __init__(self, config: Dict[str, Dict[str, str]], dry_run: bool = False):
+    def __init__(self, config: Dict[str, tuple], dry_run: bool = False):
         self.script_dir = Path(__file__).parent.absolute()
         self.config = self._expand_paths(config)
         self.dry_run = dry_run
 
-    def _expand_paths(self, config: Dict[str, Dict[str, str]]) -> Dict[str, Dict[str, Path]]:
+    def _expand_paths(self, config: Dict[str, tuple]) -> Dict[str, tuple]:
         expanded = {}
         for name, paths in config.items():
-            expanded[name] = {
-                "system": Path(paths["system"]).expanduser().resolve(),
-                "repo": (self.script_dir / paths["repo"].lstrip("./")),
-            }
+            expanded[name] = (
+                Path(paths[SYSTEM_PATH]).expanduser().resolve(),
+                self.script_dir / paths[REPO_PATH].lstrip("./")
+            )
         return expanded
 
     def _confirm_operation(self, message: str) -> bool:
@@ -92,7 +43,7 @@ class DotfileManager:
             else:
                 print("Please enter 'y' or 'n'")
 
-    def _run_rsync(self, source: Path, dest: Path, description: str, delete_extra: bool = False) -> bool:
+    def _run_rsync(self, source: Path, dest: Path, name: str, delete_extra: bool = False) -> bool:
         # Create destination parent directory if it doesn't exist
         if not self.dry_run:
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -111,7 +62,7 @@ class DotfileManager:
 
         rsync_args.extend([source_str, dest_str])
 
-        print(f"{description}: {source} -> {dest}")
+        print(f"{name}: {source} -> {dest}")
         if delete_extra:
             print("  WARNING: Files in destination not present in source will be DELETED")
         if self.dry_run:
@@ -143,7 +94,7 @@ class DotfileManager:
                 print(f"  WARNING: '{name}' not found in configuration")
                 continue
             paths = self.config[name]
-            print(f"  {name}: {paths['repo']} -> {paths['system']}")
+            print(f"  {name}: {paths[REPO_PATH]} -> {paths[SYSTEM_PATH]}")
 
         if not self._confirm_operation("\nProceed with deployment?"):
             print("Deployment cancelled.")
@@ -157,12 +108,12 @@ class DotfileManager:
 
             paths = self.config[name]
 
-            if not paths["repo"].exists():
+            if not paths[REPO_PATH].exists():
                 print(
-                    f"Warning: Repository directory {paths['repo']} doesn't exist, skipping {name}")
+                    f"Warning: Repository directory {paths[REPO_PATH]} doesn't exist, skipping {name}")
                 continue
 
-            if not self._run_rsync(paths["repo"], paths["system"], f"Deploying {name}", delete_extra=True):
+            if not self._run_rsync(paths[REPO_PATH], paths[SYSTEM_PATH], f"Deploying {name}", delete_extra=True):
                 success = False
 
         return success
@@ -181,17 +132,17 @@ class DotfileManager:
             paths = self.config[name]
 
             # Safety check: warn if system doesn't exist but repo does
-            if not paths["system"].exists():
-                if paths["repo"].exists():
+            if not paths[SYSTEM_PATH].exists():
+                if paths[REPO_PATH].exists():
                     warnings.append(
                         f"  DANGER: {name} - System directory missing but repo has content!")
                     print(
-                        f"  {name}: {paths['system']} -> {paths['repo']} (SYSTEM MISSING - WOULD DELETE REPO CONTENT)")
+                        f"  {name}: {paths[SYSTEM_PATH]} -> {paths[REPO_PATH]} (SYSTEM MISSING - WOULD DELETE REPO CONTENT)")
                 else:
                     print(
-                        f"  {name}: {paths['system']} -> {paths['repo']} (both missing)")
+                        f"  {name}: {paths[SYSTEM_PATH]} -> {paths[REPO_PATH]} (both missing)")
             else:
-                print(f"  {name}: {paths['system']} -> {paths['repo']}")
+                print(f"  {name}: {paths[SYSTEM_PATH]} -> {paths[REPO_PATH]}")
 
         if warnings:
             print("\nDANGER WARNINGS:")
@@ -211,18 +162,18 @@ class DotfileManager:
 
             paths = self.config[name]
 
-            if not paths["system"].exists():
+            if not paths[SYSTEM_PATH].exists():
                 # Extra safety: skip if system doesn't exist and repo does
-                if paths["repo"].exists():
+                if paths[REPO_PATH].exists():
                     print(
                         f"SKIPPING {name}: System directory doesn't exist but repo has content - preserving repo")
                     continue
                 else:
                     print(
-                        f"Warning: System directory {paths['system']} doesn't exist, skipping {name}")
+                        f"Warning: System directory {paths[SYSTEM_PATH]} doesn't exist, skipping {name}")
                     continue
 
-            if not self._run_rsync(paths["system"], paths["repo"], f"Retrieving {name}", delete_extra=True):
+            if not self._run_rsync(paths[SYSTEM_PATH], paths[REPO_PATH], f"Retrieving {name}", delete_extra=True):
                 success = False
 
         return success
@@ -238,8 +189,8 @@ class DotfileManager:
                 print(f"  WARNING: '{name}' not found in configuration")
                 continue
             paths = self.config[name]
-            backup_path = Path(str(paths["system"]) + ".bak")
-            print(f"  {name}: {paths['system']} -> {backup_path}")
+            backup_path = Path(str(paths[SYSTEM_PATH]) + ".bak")
+            print(f"  {name}: {paths[SYSTEM_PATH]} -> {backup_path}")
 
         if not self._confirm_operation("\nProceed with backup creation?"):
             print("Backup cancelled.")
@@ -252,7 +203,7 @@ class DotfileManager:
                 continue
 
             paths = self.config[name]
-            system_path = paths["system"]
+            system_path = paths[SYSTEM_PATH]
             backup_path = Path(str(system_path) + ".bak")
 
             if not system_path.exists():
@@ -281,8 +232,8 @@ class DotfileManager:
                 print(f"  WARNING: '{name}' not found in configuration")
                 continue
             paths = self.config[name]
-            backup_path = Path(str(paths["system"]) + ".bak")
-            print(f"  {name}: {backup_path} -> {paths['system']}")
+            backup_path = Path(str(paths[SYSTEM_PATH]) + ".bak")
+            print(f"  {name}: {backup_path} -> {paths[SYSTEM_PATH]}")
 
         if not self._confirm_operation("\nProceed with restore?"):
             print("Restore cancelled.")
@@ -295,7 +246,7 @@ class DotfileManager:
                 continue
 
             paths = self.config[name]
-            system_path = paths["system"]
+            system_path = paths[SYSTEM_PATH]
             backup_path = Path(str(system_path) + ".bak")
 
             if not backup_path.exists():
@@ -320,7 +271,7 @@ class DotfileManager:
                 print(f"  WARNING: '{name}' not found in configuration")
                 continue
             paths = self.config[name]
-            backup_path = Path(str(paths["system"]) + ".bak")
+            backup_path = Path(str(paths[SYSTEM_PATH]) + ".bak")
             if backup_path.exists():
                 print(f"  {name}: {backup_path}")
                 backups_to_delete.append((name, backup_path))
@@ -357,12 +308,12 @@ class DotfileManager:
     def list_dotfiles(self):
         print("Configured dotfiles:")
         for name, paths in self.config.items():
-            system_exists = "EXISTS" if paths["system"].exists() else "MISSING"
-            repo_exists = "EXISTS" if paths["repo"].exists() else "MISSING"
+            system_exists = "EXISTS" if paths[SYSTEM_PATH].exists() else "MISSING"
+            repo_exists = "EXISTS" if paths[REPO_PATH].exists() else "MISSING"
 
             print(f"  {name}:")
-            print(f"    System: {paths['system']} ({system_exists})")
-            print(f"    Repo:   {paths['repo']} ({repo_exists})")
+            print(f"    System: {paths[SYSTEM_PATH]} ({system_exists})")
+            print(f"    Repo:   {paths[REPO_PATH]} ({repo_exists})")
             print()
 
     def diff(self, dotfiles: Optional[List[str]] = None):
@@ -377,7 +328,7 @@ class DotfileManager:
             paths = self.config[name]
 
             # Check if both sides exist
-            match (paths["repo"].exists(), paths["system"].exists()):
+            match (paths[REPO_PATH].exists(), paths[SYSTEM_PATH].exists()):
                 case (False, False):
                     print(
                         f"{name} does not exist either in the repo or on the system")
@@ -390,7 +341,7 @@ class DotfileManager:
                     continue
 
             subprocess.run(
-                f"diff -ru {paths['repo']} {paths['system']} | diff-so-fancy", text=True, shell=True)
+                f"diff -ru {paths[REPO_PATH]} {paths[SYSTEM_PATH]} | diff-so-fancy", text=True, shell=True)
 
 
 def interactive_menu():
@@ -415,13 +366,13 @@ def interactive_menu():
             elif choice in ["d", "r", "b", "R", "D", "f"]:
                 # Show available dotfiles
                 print(
-                    f"\nAvailable dotfiles: {', '.join(DOTFILES_CONFIG.keys())}")
+                    f"\nAvailable dotfiles: {', '.join(DOTFILE_PATHS.keys())}")
                 selection = input(
                     "Enter dotfile names (space-separated, or press Enter for all): ").strip()
                 dotfiles = selection.split() if selection else None
 
                 if dotfiles:
-                    invalid = set(dotfiles) - set(DOTFILES_CONFIG.keys())
+                    invalid = set(dotfiles) - set(DOTFILE_PATHS.keys())
                     if invalid:
                         print(f"Error: Unknown dotfiles: {', '.join(invalid)}")
                         continue
@@ -433,7 +384,7 @@ def interactive_menu():
                 else:
                     dry_run = False
 
-                manager = DotfileManager(DOTFILES_CONFIG, dry_run=dry_run)
+                manager = DotfileManager(DOTFILE_PATHS, dry_run=dry_run)
 
                 match choice:
                     case "d":
@@ -450,7 +401,7 @@ def interactive_menu():
                         manager.diff(dotfiles)
 
             elif choice == "l":
-                manager = DotfileManager(DOTFILES_CONFIG)
+                manager = DotfileManager(DOTFILE_PATHS)
                 manager.list_dotfiles()
             else:
                 print("Invalid choice.")
@@ -544,7 +495,7 @@ def main():
     args = parser.parse_args()
 
     # Initialize dotfile manager
-    manager = DotfileManager(DOTFILES_CONFIG, dry_run=args.dry_run)
+    manager = DotfileManager(DOTFILE_PATHS, dry_run=args.dry_run)
 
     # Handle list and diff operations first
     if args.list:
@@ -557,10 +508,10 @@ def main():
 
     # Validate dotfile names if specified
     if args.dotfiles:
-        invalid_dotfiles = set(args.dotfiles) - set(DOTFILES_CONFIG.keys())
+        invalid_dotfiles = set(args.dotfiles) - set(DOTFILE_PATHS.keys())
         if invalid_dotfiles:
             print(f"Error: Unknown dotfiles: {', '.join(invalid_dotfiles)}")
-            print(f"Available: {', '.join(DOTFILES_CONFIG.keys())}")
+            print(f"Available: {', '.join(DOTFILE_PATHS.keys())}")
             sys.exit(1)
 
     # Execute operations

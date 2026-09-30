@@ -1,0 +1,15 @@
+Name,System,Repo
+fastfetch,~/.config/fastfetch/,./fastfetch/
+feh,~/.config/feh/,./feh/
+fish,~/.config/fish/,./fish/
+hypr,~/.config/hypr/,./hypr/
+jellium-desktop,~/.config/jellium-desktop/mpv/,./jellium-desktop/mpv/
+kitty,~/.config/kitty/,./kitty/
+mako,~/.config/mako/,./mako/
+mpv,~/.config/mpv/,./mpv/
+nvim,~/.config/nvim/,./nvim/
+oh-my-posh,~/.config/oh-my-posh/,./oh-my-posh/
+rofi,~/.config/rofi/,./rofi/
+waybar,~/.config/waybar/,./waybar/
+yazi,~/.config/yazi/,./yazi/
+zathura,~/.config/zathura/,./zathura/
