@@ -1,3 +1,4 @@
+-- Build-in screen
 hl.monitor({
     output              = "eDP-1",
     mode                = "2880x1800@120.00Hz",
@@ -22,3 +23,11 @@ hl.config({
     },
 })
 
+-- Defaults for hot-plug
+hl.monitor({
+    output      = "",
+    mode        = "preferred",
+    position    = "auto-center-right",
+    scale       = "auto",
+    mirror      = "eDP-1",
+})
