@@ -1,10 +1,8 @@
-import sys
-import subprocess
 import argparse
 import csv
+import subprocess
+import sys
 from pathlib import Path
-from typing import Dict, List, Optional
-
 
 DOTFILE_PATHS = {}
 with open("dots.csv", "r") as f:
@@ -16,12 +14,12 @@ REPO_PATH = 1
 
 
 class DotfileManager:
-    def __init__(self, config: Dict[str, tuple], dry_run: bool = False):
+    def __init__(self, config: dict[str, tuple], dry_run: bool = False):
         self.script_dir = Path(__file__).parent.absolute()
         self.config = self._expand_paths(config)
         self.dry_run = dry_run
 
-    def _expand_paths(self, config: Dict[str, tuple]) -> Dict[str, tuple]:
+    def _expand_paths(self, config: dict[str, tuple]) -> dict[str, tuple]:
         expanded = {}
         for name, paths in config.items():
             expanded[name] = (
@@ -83,7 +81,7 @@ class DotfileManager:
             print("Error: rsync not found. Please install rsync.")
             return False
 
-    def deploy(self, dotfiles: Optional[List[str]] = None) -> bool:
+    def deploy(self, dotfiles: list[str] | None = None) -> bool:
         print("Deploying dotfiles from repository to system...")
 
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -118,7 +116,7 @@ class DotfileManager:
 
         return success
 
-    def retrieve(self, dotfiles: Optional[List[str]] = None) -> bool:
+    def retrieve(self, dotfiles: list[str] | None = None) -> bool:
         print("Retrieving dotfiles from system to repository...")
 
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -178,7 +176,7 @@ class DotfileManager:
 
         return success
 
-    def create_backup(self, dotfiles: Optional[List[str]] = None) -> bool:
+    def create_backup(self, dotfiles: list[str] | None = None) -> bool:
         print("Creating backups of system files...")
 
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -221,7 +219,7 @@ class DotfileManager:
 
         return success
 
-    def restore_backup(self, dotfiles: Optional[List[str]] = None) -> bool:
+    def restore_backup(self, dotfiles: list[str] | None = None) -> bool:
         print("Restoring from backup files...")
 
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -259,7 +257,7 @@ class DotfileManager:
 
         return success
 
-    def delete_backup(self, dotfiles: Optional[List[str]] = None) -> bool:
+    def delete_backup(self, dotfiles: list[str] | None = None) -> bool:
         print("Deleting backup files...")
 
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
@@ -316,7 +314,7 @@ class DotfileManager:
             print(f"    Repo:   {paths[REPO_PATH]} ({repo_exists})")
             print()
 
-    def diff(self, dotfiles: Optional[List[str]] = None):
+    def diff(self, dotfiles: list[str] | None = None):
         target_dotfiles = dotfiles if dotfiles else list(self.config.keys())
 
         # Validate input
