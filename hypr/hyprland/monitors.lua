@@ -7,13 +7,13 @@ hl.monitor({
     scale               = "2.00",
     -- bitdepth            = 10,
     -- cm                  = "wide",
-    supports_wide_color = 1,
-    supports_hdr        = 1,
-    sdr_min_luminance   = 0.005,
-    sdr_max_luminance   = 200,
-    min_luminance       = 0,
-    max_luminance       = 617,
-    max_avg_luminance   = 400,
+    -- supports_wide_color = 1,
+    -- supports_hdr        = 1,
+    -- sdr_min_luminance   = 0.005,
+    -- sdr_max_luminance   = 200,
+    -- min_luminance       = 0,
+    -- max_luminance       = 617,
+    -- max_avg_luminance   = 400,
 })
 
 hl.config({
@@ -27,7 +27,7 @@ hl.config({
 hl.monitor({
     output      = "",
     mode        = "preferred",
-    position    = "auto-center-right",
-    scale       = "auto",
-    mirror      = "eDP-1",
+    position    = "auto-center-left",
+    scale       = "2.00",
+    -- mirror      = "eDP-1",
 })
