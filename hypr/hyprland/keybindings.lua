@@ -48,7 +48,9 @@ hl.bind("SUPER + Tab", hl.dsp.exec_cmd("snappy-switcher next --workspace --mod s
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy && notify-send -a Grim "Area screenshot copied!"'))
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd('grim - | wl-copy && notify-send -a Grim "Full screenshot copied!"'))
-hl.bind("SUPER + SHIFT + F23", hl.dsp.exec_cmd("notify-send 'Copilot Key pressed'"))
+hl.bind("SUPER + SHIFT + code:201", hl.dsp.exec_cmd("notify-send 'Copilot Key pressed'"))
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("touch ~/.config/hypr/hyprland.lua"))
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("hyprctl reload"))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
