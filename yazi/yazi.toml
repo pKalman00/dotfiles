@@ -22,10 +22,10 @@ video = [
     { run = 'mpv "%s"', orphan = true }
 ]
 text = [
-    { run = 'nvim "%s"', block = true }
+    { run = 'nvim %s', block = true }
 ]
 image = [
-    { run = 'feh "%s"', orphan = true }
+    { run = 'feh %s', orphan = true }
 ]
 extract = [
     { run = 'ouch d -y "%s"', desc = "ouch: Extract here" }
